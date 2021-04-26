@@ -1,0 +1,9 @@
+### before running this request setup livestub by using a dedicated script - setup-livestub-response.http
+POST http://guest:guest@localhost:15672/api/exchanges/%2F/amq.default/publish
+
+{
+  "properties": {},
+  "routing_key":"example.work-queue",
+  "payload": "Test message",
+  "payload_encoding":"string"
+}

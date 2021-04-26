@@ -1,0 +1,19 @@
+---
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:3.7.8-management
+    container_name: rabbit-example
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./rabbitmq/definitions.json:/opt/definitions.json:ro
+      - ./rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
+      - ./rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
+
+  livestub:
+    image: softwaremill/sttp.livestub
+    container_name: livestub-example
+    ports:
+      - "7070:7070"

@@ -1,0 +1,10 @@
+### this example uses unexisting endoint to simulate connection timout and redelivery,
+### change settings in application.conf first!
+POST http://guest:guest@localhost:15672/api/exchanges/%2F/amq.default/publish
+
+{
+  "properties": {},
+  "routing_key":"example.work-queue",
+  "payload": "Test message",
+  "payload_encoding":"string"
+}

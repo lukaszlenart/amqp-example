@@ -1,0 +1,122 @@
+{
+  "rabbit_version": "3.7.8",
+  "users": [
+    {
+      "name": "guest",
+      "password_hash": "K5Lrn2Mj77apdNwDG2P2hRNhwcv/NHTmbsAWhxY3+5ssswhQ",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "topic_permissions": [],
+  "parameters": [],
+  "global_parameters": [
+    {
+      "name": "cluster_name",
+      "value": "rabbit@local-rabbit"
+    }
+  ],
+  "policies": [],
+  "queues": [
+    {
+      "name": "example.work-queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "example.redeliver",
+        "x-dead-letter-routing-key": ""
+      }
+    },
+    {
+      "name": "example.redeliver-queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "example.messages",
+        "x-dead-letter-routing-key": "",
+        "x-message-ttl": 5000
+      }
+    },
+    {
+      "name": "example.rejected-queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "",
+        "x-dead-letter-routing-key": ""
+      }
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "example.messages",
+      "vhost": "/",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "example.redeliver",
+      "vhost": "/",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "example.rejected",
+      "vhost": "/",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "example.messages",
+      "vhost": "/",
+      "destination": "example.work-queue",
+      "destination_type": "queue",
+      "routing_key": "work-queue",
+      "arguments": {}
+    },
+    {
+      "source": "example.redeliver",
+      "vhost": "/",
+      "destination": "example.redeliver-queue",
+      "destination_type": "queue",
+      "routing_key": "redeliver-queue",
+      "arguments": {}
+    },
+    {
+      "source": "example.rejected",
+      "vhost": "/",
+      "destination": "example.rejected-queue",
+      "destination_type": "queue",
+      "routing_key": "rejected-queue",
+      "arguments": {}
+    }
+  ]
+}
